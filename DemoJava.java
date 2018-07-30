@@ -9,11 +9,11 @@ import java.io.UnsupportedEncodingException;
 
 class DemoJava {
 
-    private String TIANQI_DAILY_WEATHER_URL = "https://api.seniverse.com/v3/weather/daily.json";
+    private String TIANQI_DAILY_WEATHER_URL = "https://api.seniverse.com/v3/weather/daily.json";    //无需替换
 
-    private String TIANQI_API_SECRET_KEY = "oq5ayi3eae12pvvc"; //
+    private String TIANQI_API_SECRET_KEY = "*******"; //替换成你自己的key
 
-    private String TIANQI_API_USER_ID = "U378A0EDC2"; //
+    private String TIANQI_API_USER_ID = "*******"; //    替换成你自己的userId
 
     /**
      * Generate HmacSHA1 signature with given data string and key
@@ -59,7 +59,7 @@ class DemoJava {
     public static void main(String args[]){
         DemoJava demo = new DemoJava();
         try {
-            String url = demo.generateGetDiaryWeatherURL("shanghai");
+            String url = demo.generateGetDiaryWeatherURL("shanghai");   //传入地区拼音或地区中文都OK
             System.out.println("URL:" + url);
         } catch (Exception e) {
             System.out.println("Exception:" + e);
