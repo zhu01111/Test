@@ -1,0 +1,56 @@
+//layui测试
+	public Map<String, Object> uploadTest(MultipartFile file, HttpServletRequest request){
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		this.rootPath = request.getServletContext().getRealPath("/").replace("\\", "/");//上传文件的跟路径
+		
+		final String uploadPath = "Uploads/" + new SimpleDateFormat("yyyy/MM/dd").format(new Date());//上传的组合路径
+		
+		final String fileName = file.getOriginalFilename(); //上传的文件名
+		
+		File saveFile = new File(this.rootPath + uploadPath, fileName);
+		
+		if(!saveFile.exists())
+			saveFile.mkdirs();//目录不存在，递归创建
+		if(Arrays.asList(suffixs).contains(getSuffix(saveFile.getName())) == false){//上传文件名检查（白名单机制）true:通过，false：没有通过
+			result.put("code", 500);result.put("msg", "上传文件格式不支持");
+		}else{
+			try {
+				file.transferTo(saveFile);//保存文件
+				result.put("code", 200);result.put("msg", "上传成功");
+				result.put("data", new HashMap<String, Object>() {  
+					 {  
+						 put("src", uploadPath + "/"+ fileName);   
+					 }  
+				});
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 文件后缀
+	 * @return
+	 */
+	public String getSuffix(String name) {
+		String suffix = name;
+		if(suffix.contains("."))
+			suffix = suffix.substring(suffix.lastIndexOf("."));
+		else
+			suffix = "";
+		return suffix;
+	}
+
+
+@ResponseBody
+	@ControllerLog(operating = "layui上传测试")
+	@RequestMapping("/uploadTest")
+	public Map<String,Object> uploadTest(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request){
+		Map<String,Object> result = wifiCapService.uploadTest(file, request);
+		return result;
+	}
