@@ -9,7 +9,7 @@ import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author 沈锋 email: shenfeng@yutian.com.cn
+ * @author zhu
  * @Description: 日期工具类
  * @date 2013-7-5
  */
